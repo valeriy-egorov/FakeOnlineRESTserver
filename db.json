@@ -1,6 +1,6 @@
 {
   "Records": {
-    "Header": "Пример данных в формате JSON",
+    "Header": "Пример старницы HTML со скриптом JavaScript и Fetch для отображения данных в формате JSON",
     "Data": [
       { "value": 1, "label": "Rec1" },
       { "value": 2, "label": "Rec2" },
