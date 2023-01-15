@@ -1,34 +1,36 @@
 {
-  "Header": "Пример данных в формате JSON",
-  "Records": [
-    { "id": 1, "title": "Rec1" },
-    { "id": 2, "title": "Rec2" },
-    { "id": 3, "title": "Rec3" },
-    { "id": 4, "title": "Rec4" },
-    { "id": 5, "title": "Rec5" },
-    { "id": 6, "title": "Rec6" },
-    { "id": 7, "title": "Rec7" },
-    { "id": 8, "title": "Rec8" },
-    { "id": 9, "title": "Rec9" },
-    { "id": 10, "title": "Rec10" },
-    { "id": 11, "title": "Rec11" },
-    { "id": 12, "title": "Rec12" },
-    { "id": 13, "title": "Rec13" },
-    { "id": 14, "title": "Rec14" },
-    { "id": 15, "title": "Rec15" },
-    { "id": 16, "title": "Rec16" },
-    { "id": 17, "title": "Rec17" },
-    { "id": 18, "title": "Rec18" },
-    { "id": 19, "title": "Rec19" },
-    { "id": 20, "title": "Rec20" },
-    { "id": 21, "title": "Rec21" },
-    { "id": 22, "title": "Rec22" }
-  ],
-  "Types": [
-    { "id": 1, "body": "Целое", "RecId": 1 },
-    { "id": 2, "body": "Строка", "RecId": 1 }
-  ],
-  "profile": {
-    "name": "typicode"
+  "Records": {
+    "Header": "Пример данных в формате JSON",
+    "Data": [
+      { "value": 1, "label": "Rec1" },
+      { "value": 2, "label": "Rec2" },
+      { "value": 3, "label": "Rec3" },
+      { "value": 4, "label": "Rec4" },
+      { "value": 5, "label": "Rec5" },
+      { "value": 6, "label": "Rec6" },
+      { "value": 7, "label": "Rec7" },
+      { "value": 8, "label": "Rec8" },
+      { "value": 9, "label": "Rec9" },
+      { "value": 10, "label": "Rec10" },
+      { "value": 11, "label": "Rec11" },
+      { "value": 12, "label": "Rec12" },
+      { "value": 13, "label": "Rec13" },
+      { "value": 14, "label": "Rec14" },
+      { "value": 15, "label": "Rec15" },
+      { "value": 16, "label": "Rec16" },
+      { "value": 17, "label": "Rec17" },
+      { "value": 18, "label": "Rec18" },
+      { "value": 19, "label": "Rec19" },
+      { "value": 20, "label": "Rec20" },
+      { "value": 21, "label": "Rec21" },
+      { "value": 22, "label": "Rec22" }
+    ],
+    "Types": [
+      { "value": 1, "body": "Целое", "Recvalue": 1 },
+      { "value": 2, "body": "Строка", "Recvalue": 1 }
+    ],
+    "profile": {
+      "name": "typicode"
+    }
   }
 }
