@@ -1,4 +1,5 @@
 {
+  "Header": "Пример данных в формате JSON",
   "Records": [
     { "id": 1, "title": "Rec1" },
     { "id": 2, "title": "Rec2" },
