@@ -34,5 +34,24 @@ DataFetch(URL);
   </header>
   <section>
   </section>
+  
+<p>
+Типичный запрос с помощью fetch состоит из двух операторов await (асинхронный):
+<ul><li>let response = await fetch(url, options); // завершается с заголовками ответа<br/>
+let result = await response.json(); // читать тело ответа в формате JSON</li></ul>
+Или, без await:
+<ul><li>fetch(url, options)<br/>
+  .then(response => response.json())<br/>
+  .then(result => /* обрабатываем результат */)</li></ul>
+Параметры ответа:
+<ul><li>response.status – HTTP-код ответа</li>
+<li>response.ok – true, если статус ответа в диапазоне 200-299</li>
+<li>response.headers – похожий на Map объект с HTTP-заголовками</li></ul>
+Методы для получения тела ответа:
+<li>response.text() – возвращает ответ как обычный текст</li>
+<li>response.json() – декодирует ответ в формате JSON</li>
+<li>response.formData() – возвращает ответ как объект FormData (кодировка form/multipart, см. следующую главу)</li>
+<li>response.blob() – возвращает объект как Blob (бинарные данные с типом)</li>
+<li>response.arrayBuffer() – возвращает ответ как ArrayBuffer (низкоуровневые бинарные данные)</li></ul></p>
 </body>
 </html>
