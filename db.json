@@ -24,10 +24,10 @@
     { "id": 22, "title": "Rec22" }
   ],
   "Types": [
-    { "id": 1, "Integer": "Целое", "RecId": 1 },
-    { "id": 2, "String": "Строка", "RecId": 1 }
+    { "id": 1, "body": "Целое", "RecId": 1 },
+    { "id": 2, "body": "Строка", "RecId": 1 }
   ],
   "profile": {
-    "name": "profile"
+    "name": "typicode"
   }
 }
