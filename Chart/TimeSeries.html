@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <title>Пример графика с временным рядом</title>
+  <script src="./scripts/chart.umd.min_v4.2.0.js"></script>
+  <script src="./scripts/moment-with-locales.min_v2.29.4.js"></script>
+  <script src="./scripts/chartjs-adapter-moment.min_v1.0.1.js"></script>
+  <style>
+    @font-face {
+      font-family: GOST;
+      src: url(./fonts/MipGostZero.ttf);
+    }
+    body {
+      font-family: GOST;
+      font-size: 16pt;
+    }
+  </style>
+</head>
+<body>
+<h3>Пример графика с временным рядом</h3>
+Используем следующие модули JavaScript:
+<ul>
+  <li>Chart - модуль для отрисовки графиков и диаграмм (см. <a href="https://www.chartjs.org/docs/latest/" target="_blank">источник</a>)</li>
+  <li>Moment - модуль для работы с датой и временем (см. <a href="https://momentjs.com/docs/#/parsing/" target="_blank">источник</a>)</li>
+  <li>chartjs-adapter-moment - адаптер для связи Chart c Moment (см. <a href="https://github.com/chartjs/chartjs-adapter-moment" target="_blank">источник</a>)</li>
+</ul>
+<hr>
+<canvas id="chart1" width="800" height="250"></canvas>
+<script>
+moment.locale('ru');//Переключение языка на русский для строк с датой
+const data1 = [	//Данные двух временных рядов. Дата и время в формате unix.
+        {caption: "1",  value1: 20.01, value2: 50.01, datetimeunix: 1674111120000},
+	{caption: "2",  value1: 23.02, value2: 53.02, datetimeunix: 1674111125000},
+        {caption: "3",  value1: 22.03, value2: 53.03, datetimeunix: 1674111130000},
+	{caption: "4",  value1: null,  value2: null,  datetimeunix: 1674111135000},
+	{caption: "5",  value1: null,  value2: null,  datetimeunix: 1674111150000},
+	{caption: "6",  value1: null,  value2: null,  datetimeunix: 1674111145000},
+	{caption: "7",  value1: 25.04, value2: 53.04, datetimeunix: 1674111150000},
+        {caption: "8",  value1: 23.05, value2: 53.05, datetimeunix: 1674111155000},
+	{caption: "9",  value1: 25.06, value2: 55.06, datetimeunix: 1674111160000},
+        {caption: "10", value1: 26.07, value2: 55.07, datetimeunix: 1674111165000},
+	{caption: "11", value1: 27.08, value2: 53.08, datetimeunix: 1674111170000},
+        {caption: "12", value1: 24.09, value2: 54.09, datetimeunix: 1674111175000},
+	{caption: "13", value1: 19.10, value2: 53.10, datetimeunix: 1674111180000},
+        {caption: "14", value1: 15.11, value2: 54.11, datetimeunix: 1674111185000}
+  ];
+//Создание графика1
+const ColorLeft = 'rgb(255, 100, 100)';
+const ColorRight = 'rgb(100, 100, 255)';
+Chart.defaults.font.size = 16;
+Chart.defaults.font.family = 'Verdana';
+new Chart('chart1', {
+  type: 'line',
+  data: {
+    datasets: [
+      {
+      label: 'Температура',
+      data: data1,
+      yAxisID: 'y',
+      parsing: {xAxisKey: "datetimeunix", yAxisKey: "value1"},	//задание соответствия полей данных к осям
+      showLine: true,
+      lineTension: 0.3,	//сглаживание кривой
+      borderColor: ColorLeft},
+      {
+      label: 'Влажность',
+      data: data1,
+      yAxisID: 'yRight',
+      parsing: {xAxisKey: "datetimeunix", yAxisKey: "value2"},	//задание соответствия полей данных к осям
+      showLine: true,
+      lineTension: 0.3,	//сглаживание кривой
+      borderColor: ColorRight},
+    ],
+  },
+  options: {
+    locale: "ru-RU",
+    animation: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Датчики воздуха',
+      }
+    },
+    layout: {
+      padding: {
+        top: 80
+        }
+    },
+    scales: {
+      x: {
+        type: 'time',
+	//min: 1674111100000,
+	//max: 1674111285000,
+        //offsetAfterAutoskip: false,
+	title: {
+	  display: true,
+	  text: "Ось времени ",
+	},
+        time: {
+	  //unit: 'second', //автоматическое определение
+	  isoWeekday: true,
+	  //round: 'second',
+	  minUnit: 'second',
+	  //tooltipFormat: '<hh:mm:ss>',	//формат даты и времени на оси
+          displayFormats: {	//форматы для разных масштабов по оси времени
+	    millisecond: 'mm:ss.SSS',
+	    second: 'hh:mm:ss',
+	    minute: 'D hh:mm',
+	    hour: 'D MMM hh:mm',
+	    day: 'D MMM hh:mm',
+	    week: 'D MMM hh:mm',
+	    month: 'D MMM yyyy',
+	    quarter: 'D MMM yyyy',
+	    year: 'D MMM yyyy'
+          }
+        },
+        ticks: {
+          source: "data",	
+          color: "black",
+	  display: true,
+	  //textStrokeWidth: 20,
+	  //major: {enabled: true},
+          font: {
+            weight: "bold"
+	  },
+          //callback: function(val, index) {	//спрятать каждую 2ю метку
+          //  return index % 2 === 0 ? this.getLabelForValue(val) : '';
+          //},
+        },
+        grid: {
+          drawTicks: true,
+	  //drawOnChartArea: false,
+          //color: "blue",
+          borderColor: "black",
+	  enabled: true,
+	  drawTicks: true,
+	  lineWidth: 1,	//толщина линий сетки
+	  //offset: true,	//
+          //borderDash: [4, 8],
+        },
+      },
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+	//min: 0,
+	border: {
+	  color: ColorLeft,	  
+	},
+        ticks: {
+          color: ColorLeft,
+	  //padding: 40,
+	},
+	title: {
+	  display: true,
+	  color: ColorLeft,
+	  text: "Температура",
+	},
+        grid: {
+	  //drawOnChartArea: false,
+	  //offset: true,
+          //color: ColorLeft,
+          },
+      },
+      yRight: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+	border: {
+	  color: ColorRight
+        },
+        ticks: {
+          color: ColorRight
+	},
+	title: {
+	  display: true,
+	  color: ColorRight,
+	  text: "Влажность",
+	},
+        grid: {
+          color: ColorRight,
+          drawOnChartArea: false,
+        }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
