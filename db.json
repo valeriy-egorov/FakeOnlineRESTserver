@@ -1,5 +1,4 @@
 {
-  "answer_get": {
   "DATA": {
     "timeAIR": "2023-01-23 18:17:39", "timeGROUND": "2023-01-23 18:17:39", "data":
     {"air": [
@@ -15,7 +14,7 @@
         {"result": "True", "id": 4, "humidity": 72.24},
         {"result": "True", "id": 5, "humidity": 70.33},
         {"result": "True", "id": 6, "humidity": 72.16}
-      ]}},
+      ]}
   },
   "options": {
     "temperature": 30,
