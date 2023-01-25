@@ -3,10 +3,214 @@
 <head>
   <meta charset="utf-8" />
   <title>Пример1</title>
+
+  <script src="chart.umd.min_v4.2.0.js"></script>
+  <script src="helpers.min_4.2.0.js"></script>
+  <script src="utils.js"></script>  
+  
 </head>
 <body>
+<canvas id="chart1" width="800" height="450"></canvas>  
+<canvas id="chart2" width="800" height="450"></canvas>
+<hr>
+<script>
+async function ChartLoad() {
+  //Поскольку Chart.js — это библиотека ESM, в модулях CommonJS вы должны использовать динамический import
+  const { Chart } = await import('chart.umd.min_v4.2.0.js');
+  };
+ChartLoad();
+
+
+//RequireJS может загружать только модули AMD, поэтому не забудьте вместо этого потребовать одну из сборок UMD (т.е chart.umd.js)
+require(['chart.umd.js'], function(Chart){
+    const myChart = new Chart(ctx, {...});
+});
+
+
+//Чтобы использовать шкалу времени, вам необходимо убедиться, что один из доступных адаптеров даты и соответствующая библиотека дат полностью загружены после запроса Chart.js. Для этого вы можете использовать вложенные требования:
+require(['chartjs'], function(Chart) {
+    require(['moment'], function() {
+        require(['chartjs-adapter-moment'], function() {
+            new Chart(ctx, {...});
+        });
+    });
+});
+
+import { Chart } from 'chart.js';
+import 'chartjs-adapter-moment';
+
+options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'month'
+                },
+                min: '2021-11-07 00:00:00'
+            }
+        }
+       }
+
+</script>
+
+
+
 <script>
 console.clear();                                      //Для отладки
+var type = 'line';                                // type
+var DB = {                                      // data  
+    labels: [],
+    // Данные каждой линии
+    datasets: [{
+        data: [],
+        label: "Проверочная",
+        borderColor: "#3e95cd",
+        fill: false
+    }]};
+
+const options = {                                       // options
+    responsive: false,
+        legend: {
+        display: true
+    },
+    title: {
+        display: true,
+            text: 'Тренеровочная диаграмма'
+    }
+};
+
+//------------------------------------------------------------------
+
+
+const CHART_COLORS = {
+  red: 'rgb(255, 99, 132)',
+  orange: 'rgb(255, 159, 64)',
+  yellow: 'rgb(255, 205, 86)',
+  green: 'rgb(75, 192, 192)',
+  blue: 'rgb(54, 162, 235)',
+  purple: 'rgb(153, 102, 255)',
+  grey: 'rgb(201, 203, 207)'
+};
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+const DATA_COUNT = 7;
+const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+
+function transparentize(value, opacity) {
+  var alpha = opacity === undefined ? 0.5 : 1 - opacity;
+  <!--return colorLib(value).alpha(alpha).rgbString();-->
+  return value;
+}
+
+function months(config) {
+  var cfg = config || {};
+  var count = cfg.count || 12;
+  var section = cfg.section;
+  var values = [];
+  var i, value;
+
+  for (i = 0; i < count; ++i) {
+    value = MONTHS[Math.ceil(i) % 12];
+    values.push(value.substring(0, section));
+  }
+
+  return values;
+}
+function valueOrDefault(a, b) {
+  if (a == undefined) {
+    return b} else {
+    return a
+    } 
+}
+var _seed = Date.now();
+
+function srand(seed) {
+  _seed = seed;
+}
+
+function rand(min, max) {
+  min = valueOrDefault(min, 0);
+  max = valueOrDefault(max, 0);
+  _seed = (_seed * 9301 + 49297) % 233280;
+  return min + (_seed / 233280) * (max - min);
+}
+
+function numbers(config) {
+  var cfg = config || {};
+  var min = valueOrDefault(cfg.min, 0);
+  var max = valueOrDefault(cfg.max, 100);
+  var from = valueOrDefault(cfg.from, []);
+  var count = valueOrDefault(cfg.count, 8);
+  var decimals = valueOrDefault(cfg.decimals, 8);
+  var continuity = valueOrDefault(cfg.continuity, 1);
+  var dfactor = Math.pow(10, decimals) || 0;
+  var data = [];
+  var i, value;
+
+  for (i = 0; i < count; ++i) {
+    value = (from[i] || 0) + this.rand(min, max);
+    if (this.rand() <= continuity) {
+      data.push(Math.round(dfactor * value) / dfactor);
+    } else {
+      data.push(null);
+    }
+  }
+
+  return data;
+}
+
+const labels = months({count: 7});
+const DB2 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: numbers(NUMBER_CFG),
+      borderColor: CHART_COLORS.red,
+      backgroundColor: transparentize(CHART_COLORS.red, 0.5),
+    },
+    {
+      label: 'Dataset 2',
+      data: numbers(NUMBER_CFG),
+      borderColor: CHART_COLORS.blue,
+      backgroundColor: transparentize(CHART_COLORS.blue, 0.5),
+    }
+  ]
+};
+const config = {
+  type: 'line',
+  data: DB2,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      }
+    }
+  }
+};
+
+
+
+
+console.log(config);
+
 async function DataFetch(strURL) {
   const Requ = new Request(strURL);
   const Resp = await fetch(Requ);
@@ -24,11 +228,160 @@ async function DataFetch(strURL) {
     Para.textContent = `Дата: ${Rec.label} = ${Rec.value}`;//Заполняем свойства элемента
     Article.appendChild(Para);                        //Добавляем в элемент <article> подготовленный элемент <p>
     Section.appendChild(Article);                     //Добавляем в элемент <section> подготовленный элемент <article>
+    
+    DB.labels.push(Rec.label);
+    DB.datasets[0].data.push(Rec.value);
     }
+    
+  // Создаем графику
+  new Chart(document.getElementById("chart1"), { type, data: DB, options });
   }
   
 const URL = 'https://my-json-server.typicode.com/valeriy-egorov/FakeOnlineRESTserver/Test1';
 DataFetch(URL);
+
+
+
+  //new Chart(document.getElementById("chart2"),  
+  // вторым параметром передаем настройки в виде объекта
+   rrr= { 
+      type: 'line', // тип графика, в данном случае линейный
+      data: { // общие данные графика в виде объекта
+        labels: ['April', 'May', 'June', 'July', 'August'], // метки по оси X
+        datasets: [ // набор данных, который будет отрисовываться в виде массива с объектами
+          { 
+              label: 'Books read', // название для определенного графика в виде строки
+              data: [3, 6, 2, 7, 4] // данные в виде массива с числами, количество должно совпадать с количеством меток по оси X
+          }
+        ]
+      },
+      options: {} // дополнительные опции для графика в виде объекта, если не нужны - передаем пустой объект
+    }
+  //);
+
+</script>
+<script>
+const actions = [
+  {
+    name: 'Randomize',
+    handler(chart) {
+      chart.data.datasets.forEach(dataset => {
+        dataset.data = numbers({count: chart.data.labels.length, min: -100, max: 100});
+      });
+      chart.update();
+    }
+  },
+  {
+    name: 'Add Dataset',
+    handler(chart) {
+      const data = chart.data;
+      const dsColor = Utils.namedColor(chart.data.datasets.length);
+      const newDataset = {
+        label: 'Dataset ' + (data.datasets.length + 1),
+        backgroundColor: Utils.transparentize(dsColor, 0.5),
+        borderColor: dsColor,
+        data: numbers({count: data.labels.length, min: -100, max: 100}),
+      };
+      chart.data.datasets.push(newDataset);
+      chart.update();
+    }
+  },
+  {
+    name: 'Add Data',
+    handler(chart) {
+      const data = chart.data;
+      if (data.datasets.length > 0) {
+        data.labels = months({count: data.labels.length + 1});
+
+        for (let index = 0; index < data.datasets.length; ++index) {
+          data.datasets[index].data.push(Utils.rand(-100, 100));
+        }
+
+        chart.update();
+      }
+    }
+  },
+  {
+    name: 'Remove Dataset',
+    handler(chart) {
+      chart.data.datasets.pop();
+      chart.update();
+    }
+  },
+  {
+    name: 'Remove Data',
+    handler(chart) {
+      chart.data.labels.splice(-1, 1); // remove the label first
+
+      chart.data.datasets.forEach(dataset => {
+        dataset.data.pop();
+      });
+
+      chart.update();
+    }
+  }
+];
+</script>
+<script>
+var xValues = [10,60,70,80,90,100,110,120,130,140,250];
+var yValues = [7,8,8,9,9,9,NaN,11,14,14,15];
+const xy1 = [
+        {x: 105.0, y: 20},
+	{x: 200.1, y: 10},
+        {x: 205.2, y: 30},
+	{x: 210.3, y: 33},
+        {x: 215.4, y: 23},
+	{x: 220.5, y: 25},
+        {x: 255.6, y: null},
+	{x: 260.7, y: 23},
+        {x: 265.8, y: 20},
+	{x: 270.9, y: 10},
+        {x: 275.0, y: 20}
+	];
+const xy2 = [
+        {x: '2023-01-19 09:50:05', y: 20},
+	{x: '2023-01-19 10:00:05', y: 10},
+        {x: '2023-01-19 10:00:10', y: 30},
+	{x: '2023-01-19 10:00:15', y: 33},
+        {x: '2023-01-19 10:00:20', y: 23},
+	{x: '2023-01-19 10:00:25', y: 25},
+        {x: '2023-01-19 10:00:30', y: 26},
+	{x: '2023-01-19 10:00:35', y: 23},
+        {x: '2023-01-19 10:00:40', y: 20},
+	{x: '2023-01-19 10:00:45', y: 10},
+        {x: '2023-01-19 10:00:50', y: 20}
+	];
+new Chart("chart2", 
+{
+  type: "line",
+  data: {
+    //labels: xValues,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.1)",
+      data: xy1,
+      parsing: {yAxisKey: 'y', xAxisKey: 'x'}
+    }]
+  },
+//  options: {
+//    legend: {display: false},
+//    scales: {yAxes: [{ticks: {min: 6, max:16}}],}
+    
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true, 
+	position: "left"},
+      title: {
+        display: true,
+        text: "Chart.js Line Chart"}
+    }
+  }
+}
+);
 </script>
   <header>
   </header>
