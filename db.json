@@ -1,5 +1,5 @@
 {
-  "DATA": {
+  "DATA": [{
     "timeAIR": "2023-01-23 18:17:39", "timeGROUND": "2023-01-23 18:17:39", "data":
     {"air": [
       {"result": "True", "id": 1, "temperature": 27.85, "humidity": 46.92},
@@ -14,8 +14,9 @@
         {"result": "True", "id": 4, "humidity": 72.24},
         {"result": "True", "id": 5, "humidity": 70.33},
         {"result": "True", "id": 6, "humidity": 72.16}
-      ]}
-  },
+      ]}},
+  {"timeAIR": "2023-01-23 18:17:43", "timeGROUND": "2023-01-23 18:17:44", "data": {"air": [{"result": "True", "id": 1, "temperature": 27.16, "humidity": 47.93}, {"result": "True", "id": 2, "temperature": 29.9, "humidity": 49.35}, {"result": "True", "id": 3, "temperature": 29.31, "humidity": 60.92}, {"result": "True", "id": 4, "temperature": 29.54, "humidity": 81.54}], "ground": [{"result": "True", "id": 1, "humidity": 65.6}, {"result": "True", "id": 2, "humidity": 64.3}, {"result": "True", "id": 3, "humidity": 71.69}, {"result": "True", "id": 4, "humidity": 68.01}, {"result": "True", "id": 5, "humidity": 70.87}, {"result": "True", "id": 6, "humidity": 70.8}]}}, {"timeAIR": "2023-01-23 18:17:48", "timeGROUND": "2023-01-23 18:17:48", "data": {"air": [{"result": "True", "id": 1, "temperature": 27.21, "humidity": 70.57}, {"result": "True", "id": 2, "temperature": 31.63, "humidity": 43.44}, {"result": "True", "id": 3, "temperature": 30.38, "humidity": 56.67}, {"result": "True", "id": 4, "temperature": 29.3, "humidity": 50.43}], "ground": [{"result": "True", "id": 1, "humidity": 62.22}, {"result": "True", "id": 2, "humidity": 73.58}, {"result": "True", "id": 3, "humidity": 64.16}, {"result": "True", "id": 4, "humidity": 73.88}, {"result": "True", "id": 5, "humidity": 68.94}, {"result": "True", "id": 6, "humidity": 72.57}]}}, {"timeAIR": "2023-01-23 18:17:53", "timeGROUND": "2023-01-23 18:17:53", "data": {"air": [{"result": "True", "id": 1, "temperature": 28.28, "humidity": 51.25}, {"result": "True", "id": 2, "temperature": 28.62, "humidity": 80.65}, {"result": "True", "id": 3, "temperature": 28.63, "humidity": 67.72}, {"result": "True", "id": 4, "temperature": 29.8, "humidity": 64.11}], "ground": [{"result": "True", "id": 1, "humidity": 62.54}, {"result": "True", "id": 2, "humidity": 74.42}, {"result": "True", "id": 3, "humidity": 67.02}, {"result": "True", "id": 4, "humidity": 75.1}, {"result": "True", "id": 5, "humidity": 73.04}, {"result": "True", "id": 6, "humidity": 70.7}]}}
+  ],
   "options": {
     "temperature": 30,
     "AIRhumidity": 60,
