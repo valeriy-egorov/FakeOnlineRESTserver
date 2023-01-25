@@ -1,7 +1,7 @@
 {
   "answer_get": {
-  "DATA": [
-  {"timeAIR": "2023-01-23 18:17:39", "timeGROUND": "2023-01-23 18:17:39", "data":
+  "DATA": {
+    "timeAIR": "2023-01-23 18:17:39", "timeGROUND": "2023-01-23 18:17:39", "data":
     {"air": [
       {"result": "True", "id": 1, "temperature": 27.85, "humidity": 46.92},
       {"result": "True", "id": 2, "temperature": 29.95, "humidity": 67.55},
@@ -16,7 +16,7 @@
         {"result": "True", "id": 5, "humidity": 70.33},
         {"result": "True", "id": 6, "humidity": 72.16}
       ]}},
-]},
+  },
   "options": {
     "temperature": 30,
     "AIRhumidity": 60,
