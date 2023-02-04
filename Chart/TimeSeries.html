@@ -25,9 +25,216 @@
   <li>chartjs-adapter-moment - адаптер для связи Chart c Moment (см. <a href="https://github.com/chartjs/chartjs-adapter-moment" target="_blank">источник</a>)</li>
 </ul>
 <hr>
+<header></header>
+<canvas id="chart2" width="800" height="250"></canvas>
 <canvas id="chart1" width="800" height="250"></canvas>
+<section></section>
 <script>
+async function DataFetch(strURL) {
+  const Requ = new Request(strURL);
+  const Resp = await fetch(Requ);
+  const D = await Resp.json();
+  console.log(D);                                     //Для отладки
+  const TagHeader = document.querySelector('header'); //Запрашиваем элемент <header> из документа
+  const DataName = document.createElement('h4');      //Создаём элемент <h1>
+  DataName.textContent = 'получено от сервера';
+  TagHeader.appendChild(DataName);                    //Добавляем в элемент <header> подготовленный элемент <h1>
+  const Section = document.querySelector('section');  //Запрашиваем элемент <selection> из документа
+  for (const Rec of D.air) {                          //Цикл по всем записям D.Data
+    const Article = document.createElement('article');//Создаём элемент <article>
+    const Para = document.createElement('p');         //Создаём элемент <p>
+    Para.textContent = `Дата: ${Rec.dt}`;             //Заполняем свойства элемента
+    Article.appendChild(Para);                        //Добавляем в элемент <article> подготовленный элемент <p>
+    Section.appendChild(Article);                     //Добавляем в элемент <section> подготовленный элемент <article>
+    }
+    
+  // Создаем графику
+  new Chart('chart2', {
+  type: 'line',
+  data: {
+    datasets: [
+      {
+      label: 'Температура1',
+      data: D.air,
+      yAxisID: 'y',
+      parsing: {xAxisKey: "dt", yAxisKey: "t1"},
+      showLine: true,
+      hidden: false,
+      lineTension: 0.3,
+      borderColor: ColorLeft},
+      {
+      label: 'Температура2',
+      data: D.air,
+      yAxisID: 'y',
+      parsing: {xAxisKey: "dt", yAxisKey: "t2"},
+      showLine: true,
+      hidden: true,
+      lineTension: 0.3,
+      borderColor: ColorLeft},
+      {
+      label: 'Температура3',
+      data: D.air,
+      yAxisID: 'y',
+      parsing: {xAxisKey: "dt", yAxisKey: "t3"},
+      showLine: true,
+      hidden: true,
+      lineTension: 0.3,
+      borderColor: ColorLeft},
+      {
+      label: 'Температура4',
+      data: D.air,
+      yAxisID: 'y',
+      parsing: {xAxisKey: "dt", yAxisKey: "t4"},
+      showLine: true,
+      hidden: true,
+      lineTension: 0.3,
+      borderColor: ColorLeft},
+      {
+      label: 'Влажность1',
+      data: D.air,
+      yAxisID: 'yRight',
+      parsing: {xAxisKey: "dt", yAxisKey: "h1"},
+      showLine: true,
+      hidden: false,
+      lineTension: 0.3,
+      borderColor: ColorRight},
+      {
+      label: 'Влажность2',
+      data: D.air,
+      yAxisID: 'yRight',
+      parsing: {xAxisKey: "dt", yAxisKey: "h2"},
+      showLine: true,
+      hidden: true,
+      lineTension: 0.3,
+      borderColor: ColorRight},
+      {
+      label: 'Влажность3',
+      data: D.air,
+      yAxisID: 'yRight',
+      parsing: {xAxisKey: "dt", yAxisKey: "h3"},
+      showLine: true,
+      hidden: true,
+      lineTension: 0.3,
+      borderColor: ColorRight},
+      {
+      label: 'Влажность4',
+      data: D.air,
+      yAxisID: 'yRight',
+      parsing: {xAxisKey: "dt", yAxisKey: "h4"},
+      showLine: true,
+      hidden: true,
+      lineTension: 0.3,
+      borderColor: ColorRight},
+    ],
+  },
+  options: {
+    locale: "ru-RU",
+    animation: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Датчики воздуха',
+      }
+    },
+    layout: {
+      padding: {
+        top: 80
+        }
+    },
+    scales: {
+      x: {
+        type: 'time',
+	title: {
+	  display: true,
+	  text: "Ось времени ",
+	},
+        time: {
+	  isoWeekday: true,
+	  minUnit: 'second',
+          displayFormats: {
+	    millisecond: 'mm:ss.SSS',
+	    second: 'hh:mm:ss',
+	    minute: 'D hh:mm',
+	    hour: 'D MMM hh:mm',
+	    day: 'D MMM hh:mm',
+	    week: 'D MMM hh:mm',
+	    month: 'D MMM yyyy',
+	    quarter: 'D MMM yyyy',
+	    year: 'D MMM yyyy'
+          }
+        },
+        ticks: {
+          source: "data",
+          color: "black",
+	  display: true,
+          font: {
+            weight: "bold"
+	  },
+        },
+        grid: {
+          drawTicks: true,
+          borderColor: "black",
+	  enabled: true,
+	  drawTicks: true,
+	  lineWidth: 1,
+        },
+      },
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+	border: {
+	  color: ColorLeft,
+	},
+        ticks: {
+          color: ColorLeft,
+	},
+	title: {
+	  display: true,
+	  color: ColorLeft,
+	  text: "Температура",
+	},
+        grid: {
+          },
+      },
+      yRight: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+	border: {
+	  color: ColorRight
+        },
+        ticks: {
+          color: ColorRight
+	},
+	title: {
+	  display: true,
+	  color: ColorRight,
+	  text: "Влажность",
+	},
+        grid: {
+          color: ColorRight,
+          drawOnChartArea: false,
+        }
+      }
+    }
+  }
+});
+  };
+  
 moment.locale('ru');//Переключение языка на русский для строк с датой
+const ColorLeft = 'rgb(255, 100, 100)';
+const ColorRight = 'rgb(100, 100, 255)';
+Chart.defaults.font.size = 16;
+Chart.defaults.font.family = 'Verdana';
+
+const URL = 'https://my-json-server.typicode.com/valeriy-egorov/FakeOnlineRESTserver/DATA';
+DataFetch(URL);
+
+
+
+
+//Создание графика1
 const data1 = [	//Данные двух временных рядов. Дата и время в формате unix.
         {caption: "1",  value1: 20.01, value2: 50.01, datetimeunix: 1674111120000},
 	{caption: "2",  value1: 23.02, value2: 53.02, datetimeunix: 1674111125000},
@@ -44,11 +251,7 @@ const data1 = [	//Данные двух временных рядов. Дата 
 	{caption: "13", value1: 19.10, value2: 53.10, datetimeunix: 1674111180000},
         {caption: "14", value1: 15.11, value2: 54.11, datetimeunix: 1674111185000}
   ];
-//Создание графика1
-const ColorLeft = 'rgb(255, 100, 100)';
-const ColorRight = 'rgb(100, 100, 255)';
-Chart.defaults.font.size = 16;
-Chart.defaults.font.family = 'Verdana';
+
 new Chart('chart1', {
   type: 'line',
   data: {
@@ -114,7 +317,7 @@ new Chart('chart1', {
           }
         },
         ticks: {
-          source: "data",	
+          source: "data",
           color: "black",
 	  display: true,
 	  //textStrokeWidth: 20,
@@ -144,7 +347,7 @@ new Chart('chart1', {
         position: 'left',
 	//min: 0,
 	border: {
-	  color: ColorLeft,	  
+	  color: ColorLeft,
 	},
         ticks: {
           color: ColorLeft,
@@ -184,6 +387,32 @@ new Chart('chart1', {
     }
   }
 });
+
+const data2 = {
+  air: [
+    {dt:1674111120000, t1:30.29, h1:72.19, t2:31.20, h2:73.64, t3:30.83, h3:73.28, t4:29.97, h4:41.70},
+    {dt:1674111125000, t1:26.13, h1:43.23, t2:29.13, h2:67.67, t3:30.67, h3:76.97, t4:29.00, h4:81.98},
+    {dt:1674111130000, t1:29.52, h1:77.48, t2:31.17, h2:61.83, t3:29.01, h3:45.93, t4:29.31, h4:56.59},
+    {dt:1674111135000, t1:"null",  h1:"null",  t2:30.42, h2:77.29, t3:null,  h3:null,  t4:29.03, h4:38.47},
+    {dt:1674111140000, t1:"null",  h1:"null",  t2:29.42, h2:77.29, t3:30.94, h3:59.53, t4:29.03, h4:38.47},
+    {dt:1674111145000, t1:"null",  h1:"null",  t2:28.42, h2:77.29, t3:30.94, h3:59.53, t4:29.03, h4:38.47},
+    {dt:1674111150000, t1:30.77, h1:58.89, t2:30.42, h2:77.29, t3:30.94, h3:59.53, t4:29.03, h4:38.47},
+    {dt:1674111155000, t1:30.77, h1:58.89, t2:30.42, h2:77.29, t3:30.94, h3:59.53, t4:29.03, h4:38.47},
+    {dt:1674111160000, t1:30.77, h1:58.89, t2:30.42, h2:77.29, t3:30.94, h3:59.53, t4:29.03, h4:38.47},
+    {dt:1674111166000, t1:31.24, h1:76.33, t2:28.05, h2:64.17, t3:29.14, h3:44.97, t4:29.02, h4:52.49}
+  ],
+  ground: [
+    {dt:1674111120000, h1:62.27, h2:69.61, h3:70.66, h4:68.83, h5:65.23, h6:66.82},
+    {dt:1674111125000, h1:72.94, h2:62.61, h3:73.72, h4:75.40, h5:68.76, h6:66.47},
+    {dt:1674111132000, h1:61.89, h2:75.24, h3:70.08, h4:71.64, h5:65.10, h6:67.63},
+    {dt:1674111136000, h1:66.50, h2:63.59, h3:65.38, h4:64.88, h5:65.82, h6:67.74},
+    {dt:1674111142000, h1:67.41, h2:72.98, h3:null,  h4:null,  h5:66.53, h6:72.44},
+    {dt:1674111147000, h1:66.50, h2:63.59, h3:null,  h4:null,  h5:65.82, h6:67.74},
+    {dt:1674111153000, h1:61.89, h2:75.24, h3:70.08, h4:71.64, h5:65.10, h6:67.63},
+    {dt:1674111158000, h1:72.94, h2:62.61, h3:73.72, h4:75.40, h5:68.76, h6:66.47},
+    {dt:1674111162000, h1:62.27, h2:69.61, h3:70.66, h4:68.83, h5:65.23, h6:66.82},
+    {dt:1674111169000, h1:66.50, h2:63.59, h3:65.38, h4:64.88, h5:65.82, h6:67.74}
+  ] };
 </script>
 </body>
 </html>

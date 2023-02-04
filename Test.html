@@ -240,6 +240,15 @@ async function DataFetch(strURL) {
 const URL = 'https://my-json-server.typicode.com/valeriy-egorov/FakeOnlineRESTserver/Test1';
 DataFetch(URL);
 
+async function DataFetch2(strURL) {
+    const Requ = new Request(strURL);
+    const Resp = await fetch(Requ, {mode: "no-cors"});    
+    const D = await Resp.json();
+    console.log(D)ж
+    }
+//const URL = 'http://localhost:8000/give_data/30min';
+const URL = 'file:///T:/db.json';
+DataFetch2(URL)	ж
 
 
   //new Chart(document.getElementById("chart2"),  
