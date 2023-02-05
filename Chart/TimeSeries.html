@@ -68,7 +68,7 @@ async function DataFetch(strURL) {
   for (const Rec of Sensor.air) {			//Цикл по всем записям Sensor.air
     const Article = document.createElement('article');	//Создаём элемент Article
     const Para = document.createElement('span');	//Создаём элемент Para
-    Para.textContent = `Дата: ${Rec.dt}`;		//Заполняем свойства элемента
+    Para.textContent = `Дата: ${Rec.dt}, t1=${Rec.t1}`;	//Заполняем свойства элемента
     Article.appendChild(Para);				//Добавляем в элемент Article подготовленный элемент Para
     Section.appendChild(Article);			//Добавляем в элемент <section> подготовленный элемент Article
     }
@@ -78,7 +78,7 @@ async function DataFetch(strURL) {
     Chart1.data.datasets.forEach(dataset => {
         dataset.data = Sensor.air;			//Обновить данные
       });
-    Chart1.update("resize");					//Обновить график
+    Chart1.update("resize");				//Обновить график
     } else {
     Chart1 = new Chart('chart1', {			//Создаём один раз и потом используем
       type: 'line',
