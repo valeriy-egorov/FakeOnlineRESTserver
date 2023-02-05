@@ -54,10 +54,12 @@ async function DataFetch(strURL) {
   const Resp = await fetch(Requ);
   const Data = await Resp.json();
   
-  Sensor = Data[Index % 2];				//Для демонстрации
+  //Для демонстрации
+  Sensor = Data[Index % 2];				//Для демонстрации изменяющихся данных
   Index += 1;						//Для демонстрации
   console.log(Sensor);					//Для отладки
   
+  //Манипуляции с тэгами HTML
   const TagHeader = document.querySelector('header');	//Запрашиваем элемент <header> из документа
   const DataName = document.createElement('div');	//Создаём элемент DataName
   DataName.textContent = Index + ' ответ от сервера, массив длиной ' + Sensor.air.length;
@@ -71,10 +73,14 @@ async function DataFetch(strURL) {
     Section.appendChild(Article);			//Добавляем в элемент <section> подготовленный элемент Article
     }
     
+  //Манипуляции с графиком
   if (Chart1 != undefined) {				//Экземпляр объекта Chart существует?
-    Chart1.update;					//Обновить показания
+    Chart1.data.datasets.forEach(dataset => {
+        dataset.data = Sensor.air;			//Обновить данные
+      });
+    Chart1.update("resize");					//Обновить график
     } else {
-    Chart1 = new Chart('chart1', {			//Создаём один раз и потом пользуемся
+    Chart1 = new Chart('chart1', {			//Создаём один раз и потом используем
       type: 'line',
       data: {
         datasets: [
